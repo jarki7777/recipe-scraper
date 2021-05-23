@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/jarki7777/recipe-scrapper/issues"
   },
-  "homepage": "https://github.com/jarki7777/recipe-scrapper#readme"
+  "homepage": "https://github.com/jarki7777/recipe-scrapper#readme",
+  "dependencies": {
+    "puppeteer": "^9.1.1"
+  },
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }
