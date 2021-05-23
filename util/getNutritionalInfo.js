@@ -25,7 +25,6 @@ export const getNutritionalInfo = async (page) => {
             protein: protein.childNodes['1'].innerText,
         }
 
-        // return fat.childNodes['1'].innerText;
         return macroNutrients;
     });
     return macroNutrients;
