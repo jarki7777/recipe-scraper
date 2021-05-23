@@ -18,7 +18,7 @@ export const dishScraper = async (url, categoryUrls) => {
         urls => urls.map(url => url.getAttribute('href')));
 
     try {
-        categoryUrls.push(urls);
+        categoryUrls.push(...urls);
 
         const nextPage = await page.$eval('li.pagination-next>a', el => el.getAttribute('href'));
         
@@ -30,8 +30,8 @@ export const dishScraper = async (url, categoryUrls) => {
             await dishScraper(newUrl, categoryUrls);
         }
     } catch (e) {
-        console.log('No more pages to scrap');
+        console.log('Category scraped');
     }
-    return [].concat(...categoryUrls);
+    return console.log('All dishes scraped');
 }
 
