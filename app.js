@@ -1,4 +1,6 @@
 import puppeteer from 'puppeteer';
+import { autoScroll } from './autoscroll.js';
+import { getNutritionalInfo } from './getNutritionalInfo.js';
 
 const scrapRecipe = async (url) => {
     const browser = await puppeteer.launch({
@@ -38,77 +40,28 @@ const scrapRecipe = async (url) => {
     const notes = await page.$$eval('div.tasty-recipes-notes-body>ul>li',
         notes => notes.map(note => note.textContent));
 
-    const nutritionalInfo = await page.evaluate(() => {
-
-        const iframe = document.getElementById('nutrifox-label-109655');
-
-        // grab iframe"s document object
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-        document.querySelectorAll
-
-        const nutrientsData = iframeDoc.querySelectorAll('span.label-nutrient-name');
-
-        const {
-            ['0']: fat,
-            ['1']: saturatedFat,
-            ['2']: sodium,
-            ['3']: carbs,
-            ['4']: fiber,
-            ['5']: sugar,
-            ['6']: protein
-        } = nutrientsData;
-
-        nutritionalInfo = {
-            fat: fat.innerText,
-            saturatedFat: saturatedFat.innerText,
-            sodium: sodium.innerText,
-            carbs: carbs.innerText,
-            fiber: fiber.innerText,
-            sugar: sugar.innerText,
-            protein: protein.innerText,
-        }
-        
-        return nutritionalInfo;
-    });
+    const nutritionalInfo = await getNutritionalInfo(page);
 
     await browser.close();
 
-    console.log({
-        title,
-        img: imgs[2],
-        prepTime,
-        cookTime,
-        totalTime,
-        portions,
-        category,
-        method,
-        cuisine,
-        description,
-        ingredients,
-        instructions,
-        notes,
-        nutritionalInfo
-    });
+    const recipe = {
+        "title": title,
+        "img": imgs[2],
+        "prepTime": prepTime,
+        "cookTime": cookTime,
+        "totalTime": totalTime,
+        "portions": portions,
+        "category": category,
+        "method": method,
+        "cuisine": cuisine,
+        "description": descriptions,
+        "ingredients": ingredients,
+        "instructions": instructions,
+        "notes": notes,
+        "nutritionalInfo": nutritionalInfo
+    };
+
+    console.log(recipe);
 };
-
-async function autoScroll(page) {
-    await page.evaluate(async () => {
-        await new Promise((resolve, reject) => {
-            var totalHeight = 0;
-            var distance = 100;
-            var timer = setInterval(() => {
-                var scrollHeight = document.body.scrollHeight;
-                window.scrollBy(0, distance);
-                totalHeight += distance;
-
-                if (totalHeight >= scrollHeight) {
-                    clearInterval(timer);
-                    resolve();
-                }
-            }, 20);
-        });
-    });
-}
 
 scrapRecipe('https://livelytable.com/the-best-easy-pinto-beans/');
