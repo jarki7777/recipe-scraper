@@ -1,6 +1,8 @@
 import puppeteer from 'puppeteer';
 import { autoScroll } from './autoscroll.js';
 
+export var dishesUrls = [];
+
 export const dishScraper = async (url) => {
     const browser = await puppeteer.launch({
         args: ["--disable-web-security"]
@@ -13,23 +15,25 @@ export const dishScraper = async (url) => {
     });
 
     await autoScroll(page);
-    
+
     const urls = await page.$$eval('article>header>a[href]',
-    urls => urls.map(url => url.getAttribute('href')));
-    const nextPageExist = await page.$eval('li.pagination-next>a', el => el.getAttribute('href'));
+        urls => urls.map(url => url.getAttribute('href')));
 
-    await browser.close();
+    try {
+        dishesUrls = dishesUrls.concat(urls);
 
-    let nextPage = parseInt(url.slice(-1)) + 1;
-    let newUrl = url.slice(0, -1) + nextPage;
+        const nextPage = await page.$eval('li.pagination-next>a', el => el.getAttribute('href'));
 
-    console.log(urls)
-    
-    if (nextPageExist) {
-        await dishScraper(newUrl)
+        let nextPageNumber = parseInt(url.slice(-1)) + 1;
+        let newUrl = url.slice(0, -1) + nextPageNumber;
+
+        if (nextPage) {
+            await browser.close();
+            await dishScraper(newUrl);
+        }
+    } catch (e) {
+        console.log('No more pages to scrap');
     }
-
-    return urls;
-
+    return dishesUrls;
 }
 
