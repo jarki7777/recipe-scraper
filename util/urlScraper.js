@@ -32,6 +32,5 @@ export const dishScraper = async (url, categoryUrls) => {
     } catch (e) {
         console.log('Category scraped');
     }
-    return console.log('All dishes scraped');
 }
 
