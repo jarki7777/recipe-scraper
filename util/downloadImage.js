@@ -10,7 +10,7 @@ export const saveImg = async (imgPath, imgSrc) => {
             const response = await fetch(imgSrc);
             const buffer = await response.buffer();
             fs.writeFile(filePath, buffer, (err) => {
-                if (err) throw err;
+                if (err) return console.log(err);
                 console.log(`${imgPath} saved`);
             });
         }

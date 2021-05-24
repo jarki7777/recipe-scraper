@@ -25,7 +25,9 @@ export const recipeScraper = async (url) => {
         const imgs = await page.$$eval('img.lazyloaded[src]',
             imgs => imgs.map(img => img.getAttribute('src')));
 
-        const img = imgs[2].slice(51);
+        let img = imgs[2].slice(51);
+        img = img.replace(/\//g, '-');
+        img = img.replace('?ssl=1', '');        
 
         const title = await page.$eval('h1.entry-title', el => el.innerHTML);
 
