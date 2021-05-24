@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jarki7777/recipe-scrapper#readme",
   "dependencies": {
+    "node-fetch": "^2.6.1",
     "puppeteer": "^9.1.1"
   },
   "type": "module",
