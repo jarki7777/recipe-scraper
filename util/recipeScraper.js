@@ -51,9 +51,11 @@ export const recipeScraper = async (url) => {
         const method = await page.$eval('span.tasty-recipes-method', el => el.innerHTML);
         const cuisine = await page.$eval('span.tasty-recipes-cuisine', el => el.innerHTML);
 
-        const descriptions = await page.$$eval('div.entry-content>p>span',
-            descriptions => descriptions.map(description => description.innerHTML));
-        const description = descriptions[0].trim().slice(0, -1);
+        // const descriptions = await page.$$eval('div.entry-content>p>span',
+        //     descriptions => descriptions.map(description => description.innerHTML));
+        // const description = descriptions[0].trim().slice(0, -1);
+
+        const description = await page.$eval('#dpsp-post-content-markup ~ p', el => el.innerText);
 
         const ingredients = await page.$$eval('div.tasty-recipes-ingredients-body>ul>li',
             ingredients => ingredients.map(ingredient => ingredient.textContent));
@@ -73,7 +75,7 @@ export const recipeScraper = async (url) => {
             "img": img,
             "prepTime": prepTime,
             "cookTime": cookTime,
-            "totalTime": totalTime ? cookTime: null,
+            "totalTime": totalTime,
             "portions": portions,
             "category": category,
             "method": method,
