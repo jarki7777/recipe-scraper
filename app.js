@@ -1,8 +1,6 @@
 import { dishScraper } from "./util/urlScraper.js";
 import { recipeScraper } from "./util/recipeScraper.js";
 
-process.setMaxListeners(0);
-
 let mainDishesUrls = [];
 let sideDishesUrls = [];
 let appetizerDishesUrls = [];
@@ -18,3 +16,5 @@ let dishesUrls = [...mainDishesUrls, ...sideDishesUrls, ...appetizerDishesUrls, 
 for (let url of dishesUrls) {
     await recipeScraper(url);
 }
+
+console.log('Finished');

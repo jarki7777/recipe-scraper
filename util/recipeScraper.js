@@ -51,10 +51,6 @@ export const recipeScraper = async (url) => {
         const method = await page.$eval('span.tasty-recipes-method', el => el.innerHTML);
         const cuisine = await page.$eval('span.tasty-recipes-cuisine', el => el.innerHTML);
 
-        // const descriptions = await page.$$eval('div.entry-content>p>span',
-        //     descriptions => descriptions.map(description => description.innerHTML));
-        // const description = descriptions[0].trim().slice(0, -1);
-
         const description = await page.$eval('#dpsp-post-content-markup ~ p', el => el.innerText);
 
         const ingredients = await page.$$eval('div.tasty-recipes-ingredients-body>ul>li',
@@ -68,7 +64,7 @@ export const recipeScraper = async (url) => {
 
         const nutritionalInfo = await getNutritionalInfo(page);
 
-        const portions = await getPortions(page);
+        const servesInfo = await getPortions(page);
         
         const recipe = {
             "title": title,
@@ -76,7 +72,6 @@ export const recipeScraper = async (url) => {
             "prepTime": prepTime,
             "cookTime": cookTime,
             "totalTime": totalTime,
-            "portions": portions,
             "category": category,
             "method": method,
             "cuisine": cuisine,
@@ -84,7 +79,18 @@ export const recipeScraper = async (url) => {
             "ingredients": ingredients,
             "instructions": instructions,
             "notes": notes,
-            "nutritionalInfo": nutritionalInfo
+            "serves": servesInfo[0],
+            "caloriesPerServe": servesInfo[1],
+            "nutritionalInfo": nutritionalInfo,
+            "timesFavorite": null,
+            "oneStarVotes": null,
+            "twoStarVotes": null,
+            "threeStarVotes": null,
+            "fourStarVotes": null,
+            "fiveStarVotes": null,
+            "totalVotes": null,
+            "calification": null,
+            "comments": []
         }
 
         await browser.close();
