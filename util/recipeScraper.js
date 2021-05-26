@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import { autoScroll } from './autoscroll.js';
 import { saveImg } from './downloadImage.js';
 import { getNutritionalInfo } from './getNutritionalInfo.js';
+import { getPortions } from './getPortions.js';
 import { makeDocument } from './makeDocument.js';
 
 export const recipeScraper = async (url) => {
@@ -46,7 +47,6 @@ export const recipeScraper = async (url) => {
             return el ? el.innerHTML: 0;
         });
         
-        const portions = await page.$eval('span[data-unit]', el => el.innerHTML);
         const category = await page.$eval('span.tasty-recipes-category', el => el.innerHTML);
         const method = await page.$eval('span.tasty-recipes-method', el => el.innerHTML);
         const cuisine = await page.$eval('span.tasty-recipes-cuisine', el => el.innerHTML);
@@ -65,6 +65,8 @@ export const recipeScraper = async (url) => {
             notes => notes.map(note => note.textContent));
 
         const nutritionalInfo = await getNutritionalInfo(page);
+
+        const portions = await getPortions(page);
         
         const recipe = {
             "title": title,
@@ -89,6 +91,6 @@ export const recipeScraper = async (url) => {
         return console.log(`${recipe.title} scraped`);
 
     } catch(e) {
-        console.log(e);
+        console.log(`recipeScraper: ${e}`);
     }
 }

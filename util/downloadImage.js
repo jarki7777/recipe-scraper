@@ -10,11 +10,11 @@ export const saveImg = async (imgPath, imgSrc) => {
             const response = await fetch(imgSrc);
             const buffer = await response.buffer();
             fs.writeFile(filePath, buffer, (err) => {
-                if (err) return console.log(err);
+                if (err) return console.log(`Writing image error: ${err}`);
                 console.log(`${imgPath} saved`);
             });
         }
     } catch (e) {
-        console.log(e);
+        console.log(`Download image error: ${e}`);
     }
 }

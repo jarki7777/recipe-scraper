@@ -13,6 +13,6 @@ export const makeDocument = async (recipe) => {
             });
         }
     } catch (e) {
-        console.log(e);
+        console.log(`Make document error: ${e}`);
     }
 }
