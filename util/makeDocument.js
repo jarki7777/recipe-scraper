@@ -3,7 +3,8 @@ import fs from 'fs';
 export const makeDocument = async (recipe) => {
 
     try {
-        const filePath = `./data/${recipe.title}.json`;
+        const fileName = recipe.title.replace(/ /g, '');
+        const filePath = `./data/${fileName}.json`;
         if (fs.existsSync(filePath)) return console.log(`${recipe.title} already exist`);
         else {
             const data = JSON.stringify(recipe);
