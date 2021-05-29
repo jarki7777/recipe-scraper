@@ -89,6 +89,7 @@ export const recipeScraper = async (url) => {
             "fourStarVotes": 0,
             "fiveStarVotes": 0,
             "totalVotes": 0,
+            "totalStars": 0,
             "calification": 0,
             "comments": []
         }
