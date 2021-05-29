@@ -82,14 +82,14 @@ export const recipeScraper = async (url) => {
             "serves": servesInfo[0],
             "caloriesPerServe": servesInfo[1],
             "nutritionalInfo": nutritionalInfo,
-            "timesFavorite": null,
-            "oneStarVotes": null,
-            "twoStarVotes": null,
-            "threeStarVotes": null,
-            "fourStarVotes": null,
-            "fiveStarVotes": null,
-            "totalVotes": null,
-            "calification": null,
+            "timesFavorite": 0,
+            "oneStarVotes": 0,
+            "twoStarVotes": 0,
+            "threeStarVotes": 0,
+            "fourStarVotes": 0,
+            "fiveStarVotes": 0,
+            "totalVotes": 0,
+            "calification": 0,
             "comments": []
         }
 
